@@ -19,19 +19,19 @@ def get_filters():
     print('Hello! Let\'s explore some US bikeshare data!')
     while True:
         # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-        city = input("Type city u want to see. chicago, new york city, or washington.")
-        while city.lower() in CITY_DATA:
+        city = input("Type city u want to see. Chicago, New York City, or Washington:").lower()
+        while city in CITY_DATA:
             # get user input for month (all, january, february, ... , june)
-            month = input("Type month for sort. Type all, or name of the month:")
-            while month.lower() in month_name:
+            month = input("Type month from January to June for sorting. Or type all if you don't want specific month:").lower()
+            while month in month_name:
                 # get user input for day of week (all, monday, tuesday, ... sunday)
-                day = input("Type day of week you want to see. Type all, or name of the day:")
+                day = input("Type day of week you want to see. Type all, or name of the day:").lower()
                 if day in day_name:
                     return city, month, day
                 else:
-                    print("Wrong! You need to type exact day name ex: monday or all")
-            print("Wrong month input.")
-        print("Wrong city input.")
+                    print("Wrong! You need to type exact day name ex: monday or all.")
+            print("You can only select month between January and June.")
+        print("Wrong city input. Try again!")
 
 
 
@@ -137,11 +137,13 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     # display total travel time
-    
+    total_travel = df['Trip Duration'].sum()
+    print('Total Travel Time:', total_travel)
 
 
     # display mean travel time
-
+    mean_travel = df['Trip Duration'].mean()
+    print('Mean Travel Time:', mean_travel)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -154,13 +156,22 @@ def user_stats(df):
     start_time = time.time()
 
     # Display counts of user types
+    user_types = df['User Type'].value_counts()
+    print('Counts of User Types:', user_types)
 
+    if 'Gender' in df:
+        # Display counts of gender
+        gender = df['Gender'].value_counts()
+        print("Counts of Gender:", gender)
 
-    # Display counts of gender
-
-
-    # Display earliest, most recent, and most common year of birth
-
+        # Display earliest, most recent, and most common year of birth
+        birth_year = df['Birth Year'].dropna(axis = 0)
+        early_birth = birth_year.min()
+        recent_birth = birth_year.max()
+        common_birth = birth_year.mode()
+        print("Earliest Birth:", early_birth)
+        print("Most Recent Birth:", recent_birth)
+        print("Most Common Birth:", common_birth)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
