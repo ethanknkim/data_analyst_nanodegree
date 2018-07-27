@@ -177,6 +177,32 @@ def user_stats(df):
     print('-'*40)
 
 
+def see_raw_data(df):
+    """
+    Ask user to see raw data by 5 rows. After that, keep asking to see another 5 rows
+    """
+
+    start_count = 0
+    end_count = 5
+    while True:
+        if start_count == 0:
+            see_raw = input('\nDo you like to see raw data? Enter yes or no.\n')
+        else:
+            see_raw = input('\nDo you want to see another 5 lines? Enter yes or no.\n')
+
+        if see_raw.lower() == 'yes':
+            if start_count <= len(df) - 5:
+                print(df.iloc[start_count:end_count])
+                start_count += 5
+                end_count += 5
+            else:
+                print(df.iloc[start_count:len(df) - 1])
+                print("End of Data.")
+                break
+        else:
+            print("Finished.")
+            break
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -186,6 +212,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        see_raw_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
